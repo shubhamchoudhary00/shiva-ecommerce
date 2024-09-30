@@ -26,15 +26,11 @@ const Home = () => {
       if(res.data.success){
         // message.success(res.data.success)
         setTendors(res.data.tendors)
-        console.log(res.data)
+        // console.log(res.data)
       }
     }catch(error){
-      console.error(error.message);
-      if(error.response && error.response.data){
-        message.error(error.response.data.message || 'Something went Wrong')
-      }else{
-        message.error("Invalid Request")
-      }
+      // console.error(error.message);
+      // message.error('Something went wrong')
       
     }
   }
@@ -44,7 +40,11 @@ const Home = () => {
 
   const currentDate=Date.now();
 
- 
+  useEffect(()=>{
+    if(!localStorage.getItem('token')){
+      navigate('/login')
+    }
+  },[user,navigate])
 
   useEffect(()=>{
     getTendors();

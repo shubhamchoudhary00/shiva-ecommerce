@@ -24,8 +24,8 @@ const EditParty = ({isEdit,id,handleClick}) => {
         }
       });
       if (res.data.success) {
-        message.success('Data fetched successfully');
-        console.log(res.data.party)
+        // message.success('Data fetched successfully');
+        // console.log(res.data.party)
         const party = res.data.party;
         setName(party.name);
         setPhone(party.phone);
@@ -38,7 +38,7 @@ const EditParty = ({isEdit,id,handleClick}) => {
       }
     } catch (error) {
       message.error('Something went wrong');
-      console.log(error.message);
+      // console.log(error.message);
     }
   };
   
@@ -56,7 +56,7 @@ const EditParty = ({isEdit,id,handleClick}) => {
         }
 
     }catch(error){
-      console.log(error.message);
+      // console.log(error.message);
       message.error('Something went wrong');
     }
   }
@@ -74,7 +74,7 @@ const EditParty = ({isEdit,id,handleClick}) => {
   }
 
   useEffect(()=>{
-    console.log(id);
+    // console.log(id);
     if(isEdit){
       getPartyDetails();
     }

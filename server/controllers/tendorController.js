@@ -3,7 +3,7 @@ const { getDownloadURL, ref, uploadBytesResumable } = require('firebase/storage'
 const firebase = require('../firebase');
 const nodemailer = require('nodemailer');
 const {  getStorage } = require('firebase/storage');
-// const serviceAccount = require('../shiva-6ac48-firebase-adminsdk-uydnk-5bce203203.json'); // Replace with the path to your service account key file
+const serviceAccount = require('../helpers/serviceAccount'); // Replace with the path to your service account key file
 const postModel = require('../model/postModel');
 const formatDate = require('../helpers/formatDate');
 const clientModel = require('../model/clientModel');
@@ -12,7 +12,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: 'gs://shiva-6ac48.appspot.com',
+  storageBucket: process.env.FIREBASE_STORAGE_PATH,
 });
 
 
@@ -41,17 +41,17 @@ const uploadImagesController = async (req, res) => {
                 uploadTask.on('state_changed',
                     (snapshot) => {
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log(`Upload is ${progress.toFixed(2)}% done`);
+                        // console.log(`Upload is ${progress.toFixed(2)}% done`);
                     },
                     (error) => {
-                        console.error('Upload error:', error);
+                        // console.error('Upload error:', error);
                         reject(error);
                     },
                     () => {
                         getDownloadURL(uploadTask.snapshot.ref)
                             .then((downloadURL) => {
                                 downloadURLs.push(downloadURL);
-                                console.log('File available at', downloadURL);
+                                // console.log('File available at', downloadURL);
                                 resolve();
                             })
                             .catch(reject);
@@ -60,13 +60,7 @@ const uploadImagesController = async (req, res) => {
             });
         }
 
-        // Log other fields
-        console.log('Download URLs:', downloadURLs);
-        console.log('Title:', title);
-        console.log('Description:', descr);
-        console.log('Quantity:', qty);
-        console.log('Selected Parties:', validParty);
-        console.log('Added By ID:', id);
+      
 
         // Create a new post with the data
         const newPost = new postModel({
@@ -83,8 +77,8 @@ const uploadImagesController = async (req, res) => {
             port:'587',
            secure:false,
             auth: {
-                user: 'shubhamsur09@gmail.com',
-                pass: 'cnpgkkumhduwgqub'// Consider using an App Password for Gmail
+                user: 'shivaecomm40@gmail.com',
+                pass: process.env.EMAIL_PASS_KEY // Consider using an App Password for Gmail
             },
             // secure: true, // Use secure connection
             // logger: true,
@@ -100,7 +94,7 @@ const uploadImagesController = async (req, res) => {
             if (!party) {
                 return res.status(400).send({ message: 'Party not found', success: false });
             }
-            console.log(party?.email)
+            // console.log(party?.email)
             const mailOptions = {
                 from: 'shubhamsur09@gmail.com',
                 to: party.email,
@@ -113,7 +107,7 @@ const uploadImagesController = async (req, res) => {
                 Closing Date: ${formatDate(closingDate)}
                 Details: ${descr}
 
-                We encourage you to review the tender and submit your proposal by the closing date. If you have any questions or need further information, please don't hesitate to reach out. Below is the link to fill the tender: http://localhost:3000/tender/SharingPage/${item}/${newPost._id}
+                We encourage you to review the tender and submit your proposal by the closing date. If you have any questions or need further information, please don't hesitate to reach out. Below is the link to fill the tender: http://localhost:3000/SharingPage/${item}/${newPost._id}
 
                 Best regards,
 
@@ -122,9 +116,9 @@ const uploadImagesController = async (req, res) => {
 
             try {
                 await transporter.sendMail(mailOptions);
-                console.log(`Email sent to ${party.email}`);
+                // console.log(`Email sent to ${party.email}`);
             } catch (emailError) {
-                console.error(`Failed to send email to ${party.email}:`, emailError);
+                // console.error(`Failed to send email to ${party.email}:`, emailError);
             }
         }
 
@@ -133,14 +127,14 @@ const uploadImagesController = async (req, res) => {
         return res.status(200).json({ success: true, message: 'Files uploaded successfully', newPost });
 
     } catch (error) {
-        console.error('Error occurred:', error);
+        // console.error('Error occurred:', error);
         return res.status(500).send({ success: false, message: 'Internal Server Error' });
     }
 };
 
 const getAllTendorsController = async (req, res) => {
     try {
-        const tendors = await postModel.find();
+        const tendors = await postModel.find().sort({ createdOn: -1 }); // Sort by createdOn in descending order
         
         if (!tendors || tendors.length === 0) {
             return res.status(404).send({ message: 'No tendors available', success: false });
@@ -161,10 +155,11 @@ const getAllTendorsController = async (req, res) => {
 
         return res.status(200).send({ message: 'Fetched', success: true, tendors });
     } catch (error) {
-        console.error('Error fetching tendors:', error.message);
+        // console.error('Error fetching tendors:', error.message);
         return res.status(500).send({ message: 'Internal Server Error', success: false });
     }
 };
+
 
 
 const getTendorDetail=async(req,res)=>{
@@ -185,7 +180,7 @@ const getTendorDetail=async(req,res)=>{
         return res.status(200).send({message:'tendor fetched',success:true,tendor,quotations})
 
     }catch(error){
-        console.log(error.message)
+        // console.log(error.message)
         return res.status(500).send({message:'Internal Server Error',success:false})
     }
 }
@@ -203,7 +198,7 @@ const changeStateController=async(req,res)=>{
         return res.status(200).send({success:true,message:'Tendor closed successfully',tendor})
 
     }catch(error){
-        console.log(error.message)
+        // console.log(error.message)
         return res.status(500).send({message:'Internal Server Error',success:false})
     }
 }
@@ -222,7 +217,7 @@ const updateQuotationController=async(req,res)=>{
         return res.status(200).send({success:true,message:'Quotation added successfully',post});
 
     }catch(error){
-        console.log(error.message)
+        // console.log(error.message)
         return res.status(500).send({message:'Internal Server Error',success:false})
     }
 }

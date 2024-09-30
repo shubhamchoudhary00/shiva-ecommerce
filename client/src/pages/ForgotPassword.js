@@ -4,6 +4,7 @@ import { TERipple } from "tw-elements-react";
 import { message } from 'antd';
 import axios from 'axios';
 import host from '../APIRoute/host';
+import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -55,6 +56,8 @@ const ForgotPassword = () => {
                         Submit
                     </button>
                 </TERipple>
+
+                <span>Remember Password? <Link to='/login'>Login</Link> </span>
                 </>
 }
             </div>

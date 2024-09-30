@@ -26,17 +26,6 @@ import '../styles/Header.css';
 import {Link, useNavigate} from 'react-router-dom'
 import { useSelector } from 'react-redux';
 
-const products = [
-  { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-]
-const callsToAction = [
-  { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-  { name: 'Contact sales', href: '#', icon: PhoneIcon },
-]
 
 const Header=()=> {
   const {user}=useSelector((state)=>state.user)
@@ -112,6 +101,10 @@ const Header=()=> {
               </div>
             </PopoverPanel>
           </Popover> */}
+          
+              <span className="text-sm font-semibold leading-6 text-gray-900">
+              <Link to='/' >Home</Link> 
+            </span>
               {user?.isAdmin && 
               <span className="text-sm font-semibold leading-6 text-gray-900">
               <Link to='/add-party' >Add Party</Link> 
@@ -180,6 +173,10 @@ const Header=()=> {
                 <span
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
+                 <Link to='/' >Home</Link>                 </span>
+                <span
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
                  <Link to='/add-party' >Add Party</Link>                 </span>
                 <span
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
@@ -198,13 +195,20 @@ const Header=()=> {
             </span>
               </div>
               <div className="py-6">
+                {user ? 
                 <span
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   onClick={handleLogout}
                 >
                   Log Out
-                </span>
+                </span> :  <span
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                 
+                >
+                  <Link to='/login'>Login</Link>
+                </span>}
               </div>
             </div>
           </div>

@@ -6,6 +6,8 @@ import EditParty from '../components/EditParty'
 import axios from 'axios';
 import host from '../APIRoute/host';
 import {message} from 'antd';
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 const ManageParty = () => {
 
   const [party,setParty]=useState([]);
@@ -14,6 +16,8 @@ const ManageParty = () => {
   const [search,setSearch]=useState('');
   const [filterParties,setFilteredParties]=useState([]);
   const [loading,setLoading]=useState(true);
+  const {user}=useSelector((state)=>state.user)
+  const navigate=useNavigate()
 
   const getAllParty=async()=>{
     try{
@@ -30,7 +34,7 @@ const ManageParty = () => {
         setLoading(false)
       }
     }catch(error){
-      console.log(error.message);
+      // console.log(error.message);
       if(error.response && error.response.data){
         message.error(error.response.data.message || 'An error occured. Please try again');
       }else{
@@ -59,14 +63,19 @@ const ManageParty = () => {
 
   useEffect(()=>{
    filterParty();
-   console.log(party)
-   console.log(filterParties)
+  //  console.log(party)
+  //  console.log(filterParties)
   },[search])
 
 
   const handleClick=()=>{
     setIsEdit(!isEdit);
   }
+  useEffect(()=>{
+    if(!localStorage.getItem('token')){
+      navigate('/login')
+    }
+  },[user,navigate])
 
   useEffect(()=>{
     getAllParty();

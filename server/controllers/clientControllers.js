@@ -3,7 +3,7 @@ const clientModel = require("../model/clientModel");
 // add a party in the DB
 const addPartyController=async(req,res)=>{
     const {name,email,address,city,state,country,companyName,phone}=req.body;
-    console.log(req.body)
+    // console.log(req.body)
     try{
         const party=await clientModel.findOne({email:email});
         if(party){
@@ -17,7 +17,7 @@ const addPartyController=async(req,res)=>{
         return res.status(200).send({success:'Party added successfully',success:true,newParty});
         
     }catch(error){
-        console.log(error.message)
+        // console.log(error.message)
         return res.status(500).send({success:false,message:'Internal Server Error'});
     }
 }
@@ -90,7 +90,7 @@ const deleteAllController=async(req,res)=>{
 const updateController = async (req, res) => {
     const id = req.params.id;
     const updateData = req.body; // Get the data to update
-    console.log(updateData)
+    // console.log(updateData)
     try {
         // Find the party by ID
         const party = await clientModel.findById(id);
@@ -107,7 +107,7 @@ const updateController = async (req, res) => {
 
         return res.status(200).send({ message: 'Updated successfully', success: true, party });
     } catch (error) {
-        console.error(error); // Log the error for debugging purposes
+        // console.error(error); // Log the error for debugging purposes
         return res.status(500).send({ message: 'Internal Server Error', success: false });
     }
 };

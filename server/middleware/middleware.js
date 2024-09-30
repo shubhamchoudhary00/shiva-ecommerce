@@ -19,14 +19,14 @@ module.exports = async (req, res, next) => {
             if (err) {
                 return res.status(401).send({ message: 'Auth failed', success: false });
             } else {
-                console.log(decode);
+                // console.log(decode);
                 req.body.userId = decode.id;
                 next();
             }
         });
 
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).send({ message: 'Server error', success: false });
     }
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { TERipple } from "tw-elements-react";
@@ -7,6 +7,8 @@ import {message} from 'antd';
 import axios from 'axios'
 import host from '../APIRoute/host';
 import Confirmation from '../components/Confirmation';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const  AddParty = () => {
@@ -19,6 +21,8 @@ const  AddParty = () => {
   const [state,setState]=useState('')
   const [companyName,setCompanyName]=useState('');
   const [isConfirm,setIsConfirm]=useState(false);
+  const navigate=useNavigate();
+  const {user}=useSelector((state)=>state.user)
 
   const companyDetails={
     name,email,phone,address,city,state,country,companyName
@@ -63,12 +67,17 @@ const handleSubmit = async () => {
     }
 
   } catch (error) {
-    console.error(error.message);
+    // console.error(error.message);
     message.error('An error occurred while adding the party');
   }
   setIsConfirm(false);
 };
 
+useEffect(()=>{
+  if(!localStorage.getItem('token')){
+    navigate('/login')
+  }
+},[user,navigate])
 
   return (
     <>

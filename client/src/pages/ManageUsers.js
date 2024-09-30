@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import Confirmation from '../components/Confirmation';
 import Loader from '../components/Loader';
 import '../styles/SharingPage.css'
+import { useNavigate } from 'react-router-dom';
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
@@ -16,7 +17,8 @@ const ManageUsers = () => {
   const [isConfirm,setIsConfirm]=useState(false)
   const [currentUserId, setCurrentUserId] = useState(null);
   const [actionType, setActionType] = useState(''); // New state for action type
-  const {user}=useSelector((state)=>state.user)
+  const {user}=useSelector((state)=>state.user);
+  const navigate=useNavigate()
 
   const fetchUsers = async () => {
     try {
@@ -28,12 +30,12 @@ const ManageUsers = () => {
       });
 
       if (res.data.success) {
-        console.log(res.data)
+        // console.log(res.data)
         setUsers(res.data.users);
         setFilteredUser(res.data.users);
       }
     } catch (error) {
-      console.error(error.message);
+      // console.error(error.message);
       message.error('An error occurred. Please try again.');
     } finally {
       setLoading(false);
@@ -54,7 +56,7 @@ const ManageUsers = () => {
         (item.email?.toLowerCase() || '').includes(lowerCaseSearch)
     );
     setFilteredUser(filtered);
-    console.log(filtered)
+    // console.log(filtered)
   };
 
   useEffect(() => {
@@ -81,7 +83,7 @@ const ManageUsers = () => {
       }
     } catch (error) {
       message.error('Something went wrong');
-      console.error(error.message);
+      // console.error(error.message);
     }
     setIsConfirm(false);
   };
@@ -103,7 +105,7 @@ const ManageUsers = () => {
       }
     } catch (error) {
       message.error('Something went wrong');
-      console.error(error.message);
+      // console.error(error.message);
     }
     setIsConfirm(false);
   };
@@ -115,7 +117,11 @@ const ManageUsers = () => {
       handleDelete(currentUserId);
     }
   };
-
+  useEffect(()=>{
+    if(!localStorage.getItem('token')){
+      navigate('/login')
+    }
+  },[user,navigate])
 
   return (
     <>

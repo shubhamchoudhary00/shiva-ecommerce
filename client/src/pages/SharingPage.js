@@ -31,11 +31,11 @@ const SharingPage = () => {
         }
       })
       if(res.data.success){
-        console.log(res.data.tendor)
+        // console.log(res.data.tendor)
         setTendor(res.data.tendor)
       }
     }catch(error){
-      console.log(error.message);
+      // console.log(error.message);
       message.error('Something went wrong')
     }
   }
@@ -48,12 +48,12 @@ const SharingPage = () => {
         }
       })
       if(res.data.success){
-        console.log(res.data)
+        // console.log(res.data)
         setClient(res.data.party)
 
       }
     }catch(error){
-      console.log(error.message)
+      // console.log(error.message)
       message.error('Something went wrong')
     }
   }
@@ -65,12 +65,12 @@ const SharingPage = () => {
         }
       });
       if(res.data.success){
-        console.log(res.data)
+        // console.log(res.data)
         message.success(res.data.message)
       }
 
     }catch(error){
-      console.log(error.message)
+      // console.log(error.message)
       message.error('Something went wrong')
     }
     setIsConfirm(false)
@@ -78,7 +78,7 @@ const SharingPage = () => {
 
 
   useEffect(()=>{
-    console.log('init')
+    // console.log('init')
     getTendorDetail();
     getClientDetail();
   

@@ -24,7 +24,7 @@ const Register=()=> {
         navigate('/login');
       }
     }catch(error){
-      console.log(error.message);
+      // console.log(error.message);
       if(error.response && error.response.data){
         message.error(error.response.data.message || 'An error occured. Please try again');
       }else{

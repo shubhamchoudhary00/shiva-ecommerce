@@ -41,7 +41,7 @@ const registerController = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Error during registration:', error);  // Log the error for debugging
+        // console.error('Error during registration:', error);  // Log the error for debugging
         return res.status(500).json({
             message: 'Internal Server Error',
             success: false
@@ -75,7 +75,7 @@ const loginController=async(req,res)=>{
 
 
     }catch (error) {
-        console.error('Error during registration:', error);  // Log the error for debugging
+        // console.error('Error during registration:', error);  // Log the error for debugging
         return res.status(500).json({
             message: 'Internal Server Error',
             success: false
@@ -144,7 +144,7 @@ const deleteController=async(req,res)=>{
 const authController = async (req, res) => {
     
     try {
-      console.log(req.body)
+    //   console.log(req.body)
       const user = await userModel.findOne({ _id: req.body.userId });
       if (!user) {
         return res.status(404).json({
@@ -158,7 +158,7 @@ const authController = async (req, res) => {
         data: user,
       });
     } catch (error) {
-      console.error(error);
+    //   console.error(error);
       return res.status(500).json({
         success: false,
         message: 'Authentication error',
@@ -212,16 +212,16 @@ const authController = async (req, res) => {
 
             try {
                 await transporter.sendMail(mailOptions);
-                console.log(`Email sent to ${email}`);
+                // console.log(`Email sent to ${email}`);
             } catch (emailError) {
-                console.error(`Failed to send email to ${email}:`, emailError);
+                // console.error(`Failed to send email to ${email}:`, emailError);
             }
         
             return res.status(200).send({success:true,message:'A email has been sent to your email id'})
 
         
     }catch (error) {
-      console.error(error);
+    //   console.error(error);
       return res.status(500).json({
         success: false,
         message: 'Internal Server error',
@@ -247,7 +247,7 @@ const authController = async (req, res) => {
         return res.status(200).send({success:true,message:'Password reset successfully'})
 
     }catch (error) {
-      console.error(error);
+    //   console.error(error);
       return res.status(500).json({
         success: false,
         message: 'Internal Server error',

@@ -14,7 +14,7 @@ const Post = ({slides,tendor}) => {
       setCurrentIndex((currentIndex - 1 + slides.length) % slides.length);
     };
     useEffect(()=>{
-      console.log(slides)
+      // console.log(slides)
     },[])
   
     const formatDate = (dateString) => {

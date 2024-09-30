@@ -31,7 +31,7 @@ const CardDefault = ({ card, refreshTendors, active }) => {
         refreshTendors();
       }
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       message.error('Something went wrong');
     }
   };
@@ -49,7 +49,7 @@ const CardDefault = ({ card, refreshTendors, active }) => {
           {card?.description}
         </p>
       </div>
-      <div className="px-4 pt-4 pb-2">
+      <div className="px-4 pt-4 pb-2" style={{display:'flex'}}>
         <span
           className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
           onClick={() => handleClick(card?._id)}

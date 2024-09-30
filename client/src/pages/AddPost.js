@@ -9,6 +9,7 @@ import host from '../APIRoute/host';
 import { useSelector } from 'react-redux';
 import Confirmation from '../components/Confirmation';
 import Loader from '../components/Loader';
+import { useNavigate } from 'react-router-dom';
 
 const AddPost = () => {
     const [files, setFiles] = useState([]);
@@ -24,7 +25,8 @@ const AddPost = () => {
   const [selectedParties,setSelectedParties]=useState([]);
   const [selectAll,setSelectAll]=useState(true);
   const [isConfirm,setIsConfirm]=useState(false);
-  const [loading,setLoading]=useState(false)
+  const [loading,setLoading]=useState(false);
+  const navigate=useNavigate()
 
   const {user}=useSelector((state)=>state.user)
     // Handle file selection
@@ -69,7 +71,8 @@ const AddPost = () => {
         })
         if(res.data.success){
           message.success('A new Tendor is opened. It will close exactly after 48 hours')
-          console.log(res.data)
+          // console.log(res.data)
+          navigate('/')
         }
         
       }catch(error){
@@ -89,10 +92,10 @@ const AddPost = () => {
         }
       });
       if(res.data.success){
-        message.success(res.data.message);
+        // message.success(res.data.message);
         setParty(res.data.parties);
         setFilteredParties(res.data.parties)
-        console.log(res.data.parties);
+        // console.log(res.data.parties);
       }
     }catch(error){
       console.log(error.message);
@@ -121,8 +124,8 @@ const AddPost = () => {
 
   useEffect(()=>{
    filterParty();
-   console.log(party)
-   console.log(filterParties)
+  //  console.log(party)
+  //  console.log(filterParties)
   },[search])
 
 
@@ -164,6 +167,11 @@ const AddPost = () => {
   useEffect(()=>{
 
   },[selectedParties])
+  useEffect(()=>{
+    if(!localStorage.getItem('token')){
+      navigate('/login')
+    }
+  },[user,navigate])
 
   return (
     <>
@@ -185,7 +193,7 @@ const AddPost = () => {
           </div>
           <div className='input-group'>
             <label className='input-label' aria-required>Quantity:</label>
-            <input type='text' placeholder='Enter quantity' name='qty' value={qty} onChange={(e)=>setQty(e.target.value)} required/>
+            <input type='text' placeholder='Enter quantity (e.g 100 kg)' name='qty' value={qty} onChange={(e)=>setQty(e.target.value)} required/>
           </div>
           <div className='input-group'>
             <label className='input-label' aria-required>Description:</label>

@@ -21,9 +21,9 @@ const Login=()=> {
     
     try{
       const res=await axios.post(`${host}/user/login`,{email:email,password:password});
-      console.log(res);
+      // console.log(res);
       if(res.data.success){
-        console.log(res.data)
+        // console.log(res.data)
         localStorage.setItem('token',res.data.token);
         message.success(res.data.message);
         navigate('/');
@@ -31,7 +31,7 @@ const Login=()=> {
       }
 
     }catch(error){
-      console.log(error.message);
+      // console.log(error.message);
       if(error.response && error.response.data){
         message.error(error.response.data.message || 'An error occured. Please try again');
       }else{
@@ -140,10 +140,8 @@ const Login=()=> {
                       We are more than just a company
                     </h4>
                     <p className="text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    We are the only manufacturer of recycled polyester fibre in Punjab Region and engaged in producing an extensive range of polyester fibre.
+
                     </p>
                   </div>
                 </div>

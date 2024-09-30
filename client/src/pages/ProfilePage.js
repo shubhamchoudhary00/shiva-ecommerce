@@ -4,12 +4,13 @@ import Footer from '../components/Footer';
 import '../styles/ProfilePage.css';
 import { message } from 'antd';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import host from '../APIRoute/host';
 
 const ProfilePage = () => {
   const [user,setUser]=useState({})
   const params=useParams();
+  const navigate=useNavigate()
 
   const fetchUser=async(req,res)=>{
     try{
@@ -19,11 +20,11 @@ const ProfilePage = () => {
         }
       });
       if(res.data.success){
-        console.log(res.data)
+        // console.log(res.data)
         setUser(res.data.user)
       }
     }catch(error){
-      console.log(error.message);
+      // console.log(error.message);
       message.error('Something went wrong')
     }
   }
@@ -31,6 +32,11 @@ const ProfilePage = () => {
   useEffect(()=>{
     fetchUser();
   },[])
+  useEffect(()=>{
+    if(!localStorage.getItem('token')){
+      navigate('/login')
+    }
+  },[user,navigate])
   return (
     <>
       <Header />
